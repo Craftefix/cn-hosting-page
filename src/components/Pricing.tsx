@@ -7,7 +7,7 @@ const Pricing = () => {
   const [playerCount, setPlayerCount] = useState([30]);
 
   const calculatePrice = (players: number) => {
-    return (players * 0.50).toFixed(2);
+    return (players * 0.75).toFixed(2);
   };
 
   const calculateActualPlayerSlots = (basePlayerCount: number) => {
@@ -31,7 +31,7 @@ const Pricing = () => {
   const plans = [
     {
       name: "Starter",
-      price: "$29",
+      price: "€29",
       period: "/month",
       description: "Perfect for small communities",
       features: [
@@ -46,7 +46,7 @@ const Pricing = () => {
     },
     {
       name: "Professional",
-      price: "$59",
+      price: "€59",
       period: "/month",
       description: "Ideal for growing servers",
       features: [
@@ -63,7 +63,7 @@ const Pricing = () => {
     },
     {
       name: "Enterprise",
-      price: "$99",
+      price: "€99",
       period: "/month",
       description: "For large communities",
       features: [
@@ -89,7 +89,7 @@ const Pricing = () => {
             Simple, <span className="bg-gradient-to-r from-green-400 to-emerald-600 bg-clip-text text-transparent">Transparent Pricing</span>
           </h2>
           <p className="text-xl text-gray-400 max-w-3xl mx-auto mb-12">
-            Choose the perfect plan for your server. All plans include our full management service with no hidden fees.
+            Choose the perfect plan for your server with CraftNet hosting. All plans include our full management service with no hidden fees.
           </p>
 
           {/* Custom Pricing Slider */}
@@ -141,16 +141,16 @@ const Pricing = () => {
                     <span className="text-gray-300">Monthly Cost</span>
                   </div>
                   <div className="text-3xl font-bold text-green-400">
-                    ${currentPrice}
+                    €{currentPrice}
                   </div>
                   <p className="text-gray-400 text-sm mt-1">
-                    $0.50 per player
+                    €0.75 per player
                   </p>
                 </div>
               </div>
 
               <button className="w-full bg-gradient-to-r from-green-500 to-emerald-600 text-white py-4 rounded-xl font-bold text-lg transition-all duration-300 transform hover:scale-105 hover:from-green-600 hover:to-emerald-700">
-                Start Your Custom Plan - ${currentPrice}/month
+                Start Your Custom Plan - €{currentPrice}/month
               </button>
             </div>
           </div>
