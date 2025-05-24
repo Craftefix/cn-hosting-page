@@ -1,10 +1,17 @@
-
 import { Check, Star, Users } from "lucide-react";
 import { useState } from "react";
 import { Slider } from "@/components/ui/slider";
+import { Checkbox } from "@/components/ui/checkbox";
 
 const Pricing = () => {
   const [playerCount, setPlayerCount] = useState([30]);
+  const [additionalServices, setAdditionalServices] = useState({
+    prioritySupport: false,
+    customPlugins: false,
+    backupStorage: false,
+    ddosProtection: false,
+    dedicatedIP: false
+  });
 
   const calculatePrice = (players: number) => {
     return (players * 0.75).toFixed(2);
@@ -16,6 +23,9 @@ const Pricing = () => {
     if (basePlayerCount >= 100) {
       // 10% additional from 100 players onwards
       additionalSlots = Math.floor(basePlayerCount * 0.10);
+    } else if (basePlayerCount >= 50) {
+      // 3% additional from 50 players onwards
+      additionalSlots = Math.floor(basePlayerCount * 0.03);
     } else if (basePlayerCount >= 30) {
       // 2% additional from 30 players onwards
       additionalSlots = Math.floor(basePlayerCount * 0.02);
@@ -24,9 +34,43 @@ const Pricing = () => {
     return basePlayerCount + additionalSlots;
   };
 
+  const calculateAdditionalServicesCost = () => {
+    let cost = 0;
+    if (additionalServices.prioritySupport) cost += 15;
+    if (additionalServices.customPlugins) cost += 25;
+    if (additionalServices.backupStorage) cost += 10;
+    if (additionalServices.ddosProtection) cost += 20;
+    if (additionalServices.dedicatedIP) cost += 5;
+    return cost;
+  };
+
+  const handleServiceChange = (service: string, checked: boolean) => {
+    setAdditionalServices(prev => ({
+      ...prev,
+      [service]: checked
+    }));
+  };
+
   const currentPrice = calculatePrice(playerCount[0]);
   const actualSlots = calculateActualPlayerSlots(playerCount[0]);
   const bonusSlots = actualSlots - playerCount[0];
+  const additionalServicesCost = calculateAdditionalServicesCost();
+  const totalCost = (parseFloat(currentPrice) + additionalServicesCost).toFixed(2);
+
+  const getBonusPercentage = (players: number) => {
+    if (players >= 100) return "10% bonus slots";
+    if (players >= 50) return "3% bonus slots";
+    if (players >= 30) return "2% bonus slots";
+    return "";
+  };
+
+  const additionalServicesOptions = [
+    { id: "prioritySupport", label: "Priority Support (24/7)", cost: 15 },
+    { id: "customPlugins", label: "Custom Plugin Development", cost: 25 },
+    { id: "backupStorage", label: "Extended Backup Storage", cost: 10 },
+    { id: "ddosProtection", label: "Advanced DDoS Protection", cost: 20 },
+    { id: "dedicatedIP", label: "Dedicated IP Address", cost: 5 }
+  ];
 
   const plans = [
     {
@@ -122,16 +166,16 @@ const Pricing = () => {
                     <span className="text-gray-300">Total Player Slots</span>
                   </div>
                   <div className="text-2xl font-bold text-white">
-                    {actualSlots}
+                    {playerCount[0]}
                     {bonusSlots > 0 && (
                       <span className="text-green-400 text-lg ml-2">
-                        (+{bonusSlots} bonus)
+                        (+{bonusSlots})
                       </span>
                     )}
                   </div>
                   {bonusSlots > 0 && (
                     <p className="text-gray-400 text-sm mt-1">
-                      {playerCount[0] >= 100 ? "10% bonus slots" : "2% bonus slots"}
+                      {getBonusPercentage(playerCount[0])}
                     </p>
                   )}
                 </div>
@@ -141,16 +185,41 @@ const Pricing = () => {
                     <span className="text-gray-300">Monthly Cost</span>
                   </div>
                   <div className="text-3xl font-bold text-green-400">
-                    €{currentPrice}
+                    €{totalCost}
                   </div>
                   <p className="text-gray-400 text-sm mt-1">
                     €0.75 per player
+                    {additionalServicesCost > 0 && (
+                      <span className="block">+ €{additionalServicesCost} services</span>
+                    )}
                   </p>
                 </div>
               </div>
 
+              {/* Additional Services */}
+              <div className="bg-gray-700/30 rounded-xl p-6">
+                <h4 className="text-lg font-bold text-white mb-4">Additional Services</h4>
+                <div className="space-y-3">
+                  {additionalServicesOptions.map((service) => (
+                    <div key={service.id} className="flex items-center justify-between">
+                      <div className="flex items-center space-x-3">
+                        <Checkbox
+                          id={service.id}
+                          checked={additionalServices[service.id as keyof typeof additionalServices]}
+                          onCheckedChange={(checked) => handleServiceChange(service.id, checked === true)}
+                        />
+                        <label htmlFor={service.id} className="text-gray-300 cursor-pointer">
+                          {service.label}
+                        </label>
+                      </div>
+                      <span className="text-green-400 font-medium">+€{service.cost}/month</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
               <button className="w-full bg-gradient-to-r from-green-500 to-emerald-600 text-white py-4 rounded-xl font-bold text-lg transition-all duration-300 transform hover:scale-105 hover:from-green-600 hover:to-emerald-700">
-                Start Your Custom Plan - €{currentPrice}/month
+                Start Your Custom Plan - €{totalCost}/month
               </button>
             </div>
           </div>
