@@ -1,10 +1,12 @@
 
-import { Users } from "lucide-react";
+import { Users, ShoppingCart } from "lucide-react";
 import { useState } from "react";
 import { Slider } from "@/components/ui/slider";
+import { Checkbox } from "@/components/ui/checkbox";
 
 const Pricing = () => {
   const [playerCount, setPlayerCount] = useState([30]);
+  const [includeWebstore, setIncludeWebstore] = useState(false);
 
   const getBaseServerCharge = (players: number) => {
     if (players >= 150) return 30;
@@ -17,7 +19,8 @@ const Pricing = () => {
   const calculatePrice = (players: number) => {
     const baseCharge = getBaseServerCharge(players);
     const playerCost = players * 0.75;
-    return (baseCharge + playerCost).toFixed(2);
+    const webstoreCost = includeWebstore ? 5 : 0;
+    return (baseCharge + playerCost + webstoreCost).toFixed(2);
   };
 
   const calculateActualPlayerSlots = (basePlayerCount: number) => {
@@ -114,12 +117,44 @@ const Pricing = () => {
                   </div>
                   <div className="text-gray-400 text-sm mt-1">
                     <div>€{baseCharge} base server + €{playerCost} players</div>
+                    {includeWebstore && (
+                      <div>+ €5 webstore</div>
+                    )}
                   </div>
                 </div>
               </div>
 
+              {/* Webstore Add-on */}
+              <div className="bg-gray-700/30 rounded-xl p-6">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center space-x-3">
+                    <Checkbox
+                      id="webstore"
+                      checked={includeWebstore}
+                      onCheckedChange={(checked) => setIncludeWebstore(checked === true)}
+                    />
+                    <div className="flex items-center space-x-2">
+                      <ShoppingCart className="w-5 h-5 text-green-400" />
+                      <label htmlFor="webstore" className="text-white font-medium cursor-pointer">
+                        Webstore
+                      </label>
+                    </div>
+                  </div>
+                  <div className="text-right">
+                    <div className="text-green-400 font-bold">€10 setup + €5/month</div>
+                    <div className="text-gray-400 text-sm">+ 10% transaction fee</div>
+                  </div>
+                </div>
+                {includeWebstore && (
+                  <div className="mt-3 text-gray-400 text-sm">
+                    Professional webstore integration with payment processing and inventory management.
+                  </div>
+                )}
+              </div>
+
               <button className="w-full bg-gradient-to-r from-green-500 to-emerald-600 text-white py-4 rounded-xl font-bold text-lg transition-all duration-300 transform hover:scale-105 hover:from-green-600 hover:to-emerald-700">
                 Start Your Custom Plan - €{currentPrice}/month
+                {includeWebstore && <span className="text-sm font-normal"> (+ €10 setup)</span>}
               </button>
             </div>
           </div>
