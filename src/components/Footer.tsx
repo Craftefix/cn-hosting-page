@@ -1,5 +1,5 @@
-
 import { Server, Mail, MessageCircle } from "lucide-react";
+import Logo from "./Logo";
 
 const Footer = () => {
   return (
@@ -8,10 +8,8 @@ const Footer = () => {
         <div className="grid md:grid-cols-4 gap-8 mb-8">
           <div>
             <div className="flex items-center space-x-2 mb-4">
-              <div className="w-8 h-8 bg-gradient-to-br from-green-400 to-emerald-600 rounded-lg flex items-center justify-center">
-                <span className="text-white font-bold text-sm">MC</span>
-              </div>
-              <span className="text-white font-bold text-xl">ServerCraft Pro</span>
+              <Logo />
+              <span className="text-white font-bold text-xl">CraftNet Hosting</span>
             </div>
             <p className="text-gray-400 mb-4">
               Professional Minecraft server management for serious communities.
@@ -60,7 +58,7 @@ const Footer = () => {
         <div className="border-t border-green-500/20 pt-8">
           <div className="flex flex-col md:flex-row justify-between items-center">
             <p className="text-gray-400 text-sm">
-              © 2024 ServerCraft Pro. All rights reserved.
+              © 2024 CraftNet Hosting. All rights reserved.
             </p>
             <p className="text-gray-500 text-sm mt-2 md:mt-0">
               Built for Minecraft server owners who want to focus on their community

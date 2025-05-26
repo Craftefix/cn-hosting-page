@@ -1,6 +1,6 @@
-
 import { Menu, X } from "lucide-react";
 import { useState } from "react";
+import Logo from "./Logo";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -10,10 +10,8 @@ const Header = () => {
       <div className="container mx-auto px-4 py-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-2">
-            <div className="w-8 h-8 bg-gradient-to-br from-green-400 to-emerald-600 rounded-lg flex items-center justify-center">
-              <span className="text-white font-bold text-sm">MC</span>
-            </div>
-            <span className="text-white font-bold text-xl">ServerCraft Pro</span>
+            <Logo />
+            <span className="text-white font-bold text-xl">CraftNet Hosting</span>
           </div>
           
           <nav className="hidden md:flex items-center space-x-8">
