@@ -1,4 +1,3 @@
-
 import { Users, ShoppingCart } from "lucide-react";
 import { useState } from "react";
 import { Slider } from "@/components/ui/slider";
@@ -9,17 +8,18 @@ const Pricing = () => {
   const [includeWebstore, setIncludeWebstore] = useState(false);
 
   const getBaseServerCharge = (players: number) => {
-    if (players >= 150) return 30;
-    if (players >= 100) return 25;
-    if (players >= 75) return 15;
+    if (players >= 150) return 35;
+    if (players >= 100) return 30;
+    if (players >= 75) return 20;
+    if (players >= 30) return 12;
     if (players >= 25) return 10;
     return 10; // Default for under 25 players
   };
 
   const calculatePrice = (players: number) => {
     const baseCharge = getBaseServerCharge(players);
-    const playerCost = players * 0.75;
-    const webstoreCost = includeWebstore ? 5 : 0;
+    const playerCost = players * 0.85;
+    const webstoreCost = includeWebstore ? 6 : 0;
     return (baseCharge + playerCost + webstoreCost).toFixed(2);
   };
 
@@ -44,7 +44,7 @@ const Pricing = () => {
   const actualSlots = calculateActualPlayerSlots(playerCount[0]);
   const bonusSlots = actualSlots - playerCount[0];
   const baseCharge = getBaseServerCharge(playerCount[0]);
-  const playerCost = (playerCount[0] * 0.75).toFixed(2);
+  const playerCost = (playerCount[0] * 0.85).toFixed(2);
 
   const getBonusPercentage = (players: number) => {
     if (players >= 100) return "10% bonus slots";
@@ -118,7 +118,7 @@ const Pricing = () => {
                   <div className="text-gray-400 text-sm mt-1">
                     <div>€{baseCharge} base server + €{playerCost} players</div>
                     {includeWebstore && (
-                      <div>+ €5 webstore</div>
+                      <div>+ €6 webstore</div>
                     )}
                   </div>
                 </div>
@@ -141,7 +141,7 @@ const Pricing = () => {
                     </div>
                   </div>
                   <div className="text-right">
-                    <div className="text-green-400 font-bold">€10 setup + €5/month</div>
+                    <div className="text-green-400 font-bold">€12 setup + €6/month</div>
                     <div className="text-gray-400 text-sm">+ 10% transaction fee</div>
                   </div>
                 </div>
@@ -154,7 +154,7 @@ const Pricing = () => {
 
               <button className="w-full bg-gradient-to-r from-green-500 to-emerald-600 text-white py-4 rounded-xl font-bold text-lg transition-all duration-300 transform hover:scale-105 hover:from-green-600 hover:to-emerald-700">
                 Start Your Custom Plan - €{currentPrice}/month
-                {includeWebstore && <span className="text-sm font-normal"> (+ €10 setup)</span>}
+                {includeWebstore && <span className="text-sm font-normal"> (+ €12 setup)</span>}
               </button>
             </div>
           </div>
