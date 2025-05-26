@@ -14,8 +14,18 @@ const Pricing = () => {
     dedicatedIP: false
   });
 
+  const getBaseServerCharge = (players: number) => {
+    if (players >= 150) return 30;
+    if (players >= 100) return 25;
+    if (players >= 75) return 15;
+    if (players >= 25) return 10;
+    return 10; // Default for under 25 players
+  };
+
   const calculatePrice = (players: number) => {
-    return (players * 0.75).toFixed(2);
+    const baseCharge = getBaseServerCharge(players);
+    const playerCost = players * 0.75;
+    return (baseCharge + playerCost).toFixed(2);
   };
 
   const calculateActualPlayerSlots = (basePlayerCount: number) => {
@@ -57,6 +67,8 @@ const Pricing = () => {
   const bonusSlots = actualSlots - playerCount[0];
   const additionalServicesCost = calculateAdditionalServicesCost();
   const totalCost = (parseFloat(currentPrice) + additionalServicesCost).toFixed(2);
+  const baseCharge = getBaseServerCharge(playerCount[0]);
+  const playerCost = (playerCount[0] * 0.75).toFixed(2);
 
   const getBonusPercentage = (players: number) => {
     if (players >= 100) return "10% bonus slots";
@@ -135,12 +147,12 @@ const Pricing = () => {
                   <div className="text-3xl font-bold text-green-400">
                     €{totalCost}
                   </div>
-                  <p className="text-gray-400 text-sm mt-1">
-                    €0.75 per player
+                  <div className="text-gray-400 text-sm mt-1">
+                    <div>€{baseCharge} base server + €{playerCost} players</div>
                     {additionalServicesCost > 0 && (
-                      <span className="block">+ €{additionalServicesCost} services</span>
+                      <div>+ €{additionalServicesCost} services</div>
                     )}
-                  </p>
+                  </div>
                 </div>
               </div>
 
