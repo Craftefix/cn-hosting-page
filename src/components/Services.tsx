@@ -5,45 +5,75 @@ import { useState } from "react";
 
 const Services = () => {
   const [addons, setAddons] = useState({
+    completeSetup: false,
+    freeWebsite: false,
+    ranksEconomy: false,
+    antiCheat: false,
+    antiXray: false,
+    performance: false,
+    pluginManagement: false,
     webstore: false,
     analytics: false,
     dailyBackups: false
   });
 
-  const coreServices = [
-    {
-      icon: <Settings className="w-8 h-8" />,
-      title: "Complete Server Setup",
-      description: "Professional installation and configuration of your Minecraft server with optimal settings"
-    },
-    {
-      icon: <Globe className="w-8 h-8" />,
-      title: "Free Website",
-      description: "Server status, player stats, join button, customizable homepage - included at no extra cost"
-    },
-    {
-      icon: <Users className="w-8 h-8" />,
-      title: "In-Game Ranks & Economy",
-      description: "Built-in rank ladder and virtual currency system. Works without webshop for seamless gameplay"
-    },
-    {
-      icon: <Shield className="w-8 h-8" />,
-      title: "Anti-Cheat & Anti-Xray",
-      description: "Preinstalled advanced anti-cheat plugins and AI-powered anti-xray protection"
-    },
-    {
-      icon: <Cpu className="w-8 h-8" />,
-      title: "Performance Optimization",
-      description: "Server tuning and optimization with 24/7 monitoring for smooth gameplay"
-    },
-    {
-      icon: <Headphones className="w-8 h-8" />,
-      title: "Plugin Management",
-      description: "Installation, configuration, and maintenance of plugins to enhance your server"
-    }
-  ];
-
   const availableAddons = [
+    {
+      id: 'completeSetup',
+      title: 'Complete Server Setup',
+      description: 'Professional installation and configuration of your Minecraft server with optimal settings',
+      setupPrice: 25,
+      monthlyPrice: 0,
+      icon: <Settings className="w-5 h-5" />
+    },
+    {
+      id: 'freeWebsite',
+      title: 'Free Website',
+      description: 'Server status, player stats, join button, customizable homepage',
+      setupPrice: 15,
+      monthlyPrice: 5,
+      icon: <Globe className="w-5 h-5" />
+    },
+    {
+      id: 'ranksEconomy',
+      title: 'In-Game Ranks & Economy',
+      description: 'Built-in rank ladder and virtual currency system. Works without webshop',
+      setupPrice: 20,
+      monthlyPrice: 8,
+      icon: <Users className="w-5 h-5" />
+    },
+    {
+      id: 'antiCheat',
+      title: 'Anti-Cheat Setup',
+      description: 'Preinstalled and configured advanced anti-cheat plugins',
+      setupPrice: 10,
+      monthlyPrice: 3,
+      icon: <Shield className="w-5 h-5" />
+    },
+    {
+      id: 'antiXray',
+      title: 'Anti-Xray Protection',
+      description: 'Uses the most effective solution available (e.g., Paper Engine Mode 2)',
+      setupPrice: 8,
+      monthlyPrice: 2,
+      icon: <Eye className="w-5 h-5" />
+    },
+    {
+      id: 'performance',
+      title: 'Performance Optimization',
+      description: 'Server tuning and optimization with 24/7 monitoring for smooth gameplay',
+      setupPrice: 15,
+      monthlyPrice: 7,
+      icon: <Cpu className="w-5 h-5" />
+    },
+    {
+      id: 'pluginManagement',
+      title: 'Plugin Management',
+      description: 'Installation, configuration, and maintenance of plugins to enhance your server',
+      setupPrice: 12,
+      monthlyPrice: 5,
+      icon: <Headphones className="w-5 h-5" />
+    },
     {
       id: 'webstore',
       title: 'Webstore Integration',
@@ -101,32 +131,17 @@ const Services = () => {
             What We <span className="bg-gradient-to-r from-green-400 to-emerald-600 bg-clip-text text-transparent">Manage</span>
           </h2>
           <p className="text-xl text-gray-400 max-w-3xl mx-auto">
-            Everything you need for a professional Minecraft server, handled by experts so you can focus on your community
+            Choose from our comprehensive suite of Minecraft server management services
           </p>
         </div>
 
-        {/* Core Services */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto mb-16">
-          {coreServices.map((service, index) => (
-            <div 
-              key={index}
-              className="bg-gray-900/50 backdrop-blur-sm border border-green-500/20 rounded-xl p-6 hover:border-green-500/40 transition-all duration-300 hover:transform hover:scale-105 animate-fade-in"
-              style={{animationDelay: `${index * 0.1}s`}}
-            >
-              <div className="text-green-400 mb-4">{service.icon}</div>
-              <h3 className="text-white font-bold text-xl mb-3">{service.title}</h3>
-              <p className="text-gray-400">{service.description}</p>
-            </div>
-          ))}
-        </div>
-
         {/* Add-ons Section */}
-        <div className="bg-gradient-to-r from-green-500/10 to-emerald-600/10 border border-green-500/20 rounded-xl p-8 max-w-4xl mx-auto mb-16">
+        <div className="bg-gradient-to-r from-green-500/10 to-emerald-600/10 border border-green-500/20 rounded-xl p-8 max-w-6xl mx-auto">
           <h3 className="text-2xl md:text-3xl font-bold text-white mb-6 text-center">
-            Optional Add-ons
+            Available Services & Add-ons
           </h3>
           
-          <div className="space-y-4 mb-6">
+          <div className="grid md:grid-cols-2 gap-4 mb-6">
             {availableAddons.map((addon) => (
               <div key={addon.id} className="bg-gray-800/30 rounded-lg p-4 flex items-center justify-between">
                 <div className="flex items-center space-x-4">
@@ -139,7 +154,10 @@ const Services = () => {
                 <div className="flex items-center space-x-4">
                   <div className="text-right">
                     <div className="text-green-400 font-bold">
-                      {addon.setupPrice > 0 && `€${addon.setupPrice} setup + `}€{addon.monthlyPrice}/month
+                      {addon.setupPrice > 0 && `€${addon.setupPrice} setup`}
+                      {addon.setupPrice > 0 && addon.monthlyPrice > 0 && ' + '}
+                      {addon.monthlyPrice > 0 && `€${addon.monthlyPrice}/month`}
+                      {addon.setupPrice === 0 && addon.monthlyPrice === 0 && 'Contact us'}
                     </div>
                   </div>
                   <Switch
@@ -155,36 +173,28 @@ const Services = () => {
             <div className="bg-gray-700/30 rounded-lg p-4 mb-6">
               <h4 className="text-white font-semibold mb-2">Selected Add-ons Total:</h4>
               <div className="text-green-400 font-bold text-lg">
-                {totalSetup > 0 && `€${totalSetup} setup fee + `}€{totalMonthly}/month additional
+                {totalSetup > 0 && `€${totalSetup} setup fee`}
+                {totalSetup > 0 && totalMonthly > 0 && ' + '}
+                {totalMonthly > 0 && `€${totalMonthly}/month additional`}
               </div>
+              
+              <button 
+                className="mt-4 bg-gradient-to-r from-green-500 to-emerald-600 text-white px-8 py-3 rounded-xl font-bold text-lg hover:from-green-600 hover:to-emerald-700 transition-all duration-300 transform hover:scale-105"
+                onClick={() => {
+                  const selectedAddons = Object.entries(addons)
+                    .filter(([_, selected]) => selected)
+                    .map(([addonId]) => availableAddons.find(a => a.id === addonId))
+                    .filter(Boolean);
+                  
+                  // Store selected addons in sessionStorage for the checkout page
+                  sessionStorage.setItem('selectedAddons', JSON.stringify(selectedAddons));
+                  window.location.href = '/checkout';
+                }}
+              >
+                Get Your Quote
+              </button>
             </div>
           )}
-        </div>
-
-        <div className="text-center">
-          <div className="bg-gradient-to-r from-green-500/10 to-emerald-600/10 border border-green-500/20 rounded-xl p-8 max-w-4xl mx-auto">
-            <h3 className="text-2xl md:text-3xl font-bold text-white mb-4">
-              Ready to Go Hands-Free?
-            </h3>
-            <p className="text-gray-400 mb-6 text-lg">
-              Join hundreds of server owners who trust us with their Minecraft communities
-            </p>
-            <button 
-              className="bg-gradient-to-r from-green-500 to-emerald-600 text-white px-8 py-4 rounded-xl font-bold text-lg hover:from-green-600 hover:to-emerald-700 transition-all duration-300 transform hover:scale-105"
-              onClick={() => {
-                const selectedAddons = Object.entries(addons)
-                  .filter(([_, selected]) => selected)
-                  .map(([addonId]) => availableAddons.find(a => a.id === addonId))
-                  .filter(Boolean);
-                
-                // Store selected addons in sessionStorage for the checkout page
-                sessionStorage.setItem('selectedAddons', JSON.stringify(selectedAddons));
-                window.location.href = '/checkout';
-              }}
-            >
-              Get Your Quote Today
-            </button>
-          </div>
         </div>
       </div>
     </section>
