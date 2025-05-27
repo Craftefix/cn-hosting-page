@@ -4,7 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
-import { ShoppingCart, CreditCard, User, Mail, MessageSquare } from "lucide-react";
+import { ShoppingCart, CreditCard, User, Mail } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
 interface Addon {
@@ -29,13 +29,39 @@ const Checkout = () => {
 
   useEffect(() => {
     const storedAddons = sessionStorage.getItem('selectedAddons');
+    const storedPlayerCount = sessionStorage.getItem('playerCount');
+    
     if (storedAddons) {
       setSelectedAddons(JSON.parse(storedAddons));
     }
+    
+    if (storedPlayerCount) {
+      setCustomerInfo(prev => ({
+        ...prev,
+        playerCount: parseInt(storedPlayerCount) || 30
+      }));
+    }
   }, []);
 
+  const getBaseServerCharge = (players: number) => {
+    if (players <= 5) return 8;
+    if (players <= 10) return 9;
+    if (players <= 15) return 10;
+    if (players <= 20) return 11;
+    if (players <= 25) return 12;
+    if (players <= 30) return 13;
+    if (players <= 50) return 16;
+    if (players <= 75) return 20;
+    if (players <= 100) return 25;
+    if (players <= 150) return 30;
+    return 35;
+  };
+
   const calculateTotals = () => {
-    const basePrice = 13 + (customerInfo.playerCount * 0.85); // Base server cost
+    const baseCharge = getBaseServerCharge(customerInfo.playerCount);
+    const playerCost = customerInfo.playerCount * 0.85;
+    const basePrice = baseCharge + playerCost;
+    
     const addonSetup = selectedAddons.reduce((sum, addon) => sum + addon.setupPrice, 0);
     const addonMonthly = selectedAddons.reduce((sum, addon) => sum + addon.monthlyPrice, 0);
     
@@ -65,25 +91,35 @@ const Checkout = () => {
     setIsLoading(true);
 
     try {
-      // Send order details to Discord webhook
-      const orderData = {
-        customer: customerInfo,
-        addons: selectedAddons,
-        pricing: totals,
-        timestamp: new Date().toISOString()
-      };
+      // Send order details to Discord webhook via Supabase Edge Function
+      const response = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/send-order-notification`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`,
+        },
+        body: JSON.stringify({
+          customer: customerInfo,
+          addons: selectedAddons,
+          pricing: totals,
+        }),
+      });
 
-      // Here you would normally create a Stripe checkout session
-      // For now, we'll simulate the process and send to Discord
+      if (!response.ok) {
+        throw new Error('Failed to send order notification');
+      }
       
       toast({
         title: "Order Submitted!",
         description: "We'll contact you shortly to set up your server and process payment.",
       });
 
-      console.log('Order submitted:', orderData);
+      // Clear sessionStorage after successful submission
+      sessionStorage.removeItem('selectedAddons');
+      sessionStorage.removeItem('playerCount');
       
     } catch (error) {
+      console.error('Order submission error:', error);
       toast({
         title: "Error",
         description: "Failed to submit order. Please try again.",
