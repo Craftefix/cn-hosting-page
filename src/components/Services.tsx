@@ -1,5 +1,5 @@
 
-import { CheckCircle, Settings, Database, Shield, Headphones, Cpu } from "lucide-react";
+import { CheckCircle, Settings, Database, Shield, Headphones, Cpu, ShoppingCart, Globe, TrendingUp, Eye, Users, Calendar } from "lucide-react";
 
 const Services = () => {
   const services = [
@@ -9,14 +9,39 @@ const Services = () => {
       description: "Professional installation and configuration of your Minecraft server with optimal settings"
     },
     {
+      icon: <ShoppingCart className="w-8 h-8" />,
+      title: "Webstore Integration",
+      description: "€12 setup + €6/month. Sell items, ranks, and perks. Integrated with payment processing."
+    },
+    {
+      icon: <Globe className="w-8 h-8" />,
+      title: "Free Website",
+      description: "Server status, player stats, join button, customizable homepage - included at no extra cost"
+    },
+    {
+      icon: <Users className="w-8 h-8" />,
+      title: "In-Game Ranks & Economy",
+      description: "Built-in rank ladder and virtual currency system. Works without webshop for seamless gameplay"
+    },
+    {
       icon: <Database className="w-8 h-8" />,
-      title: "Automatic Backups",
-      description: "Daily automated backups with easy restore options to protect your world and player data"
+      title: "Daily Backups",
+      description: "Automated daily backups included to protect your world and player data with easy restore options"
     },
     {
       icon: <Shield className="w-8 h-8" />,
-      title: "Security Management",
-      description: "Advanced protection against DDoS attacks, grief, and unauthorized access"
+      title: "Anti-Cheat Setup",
+      description: "Preinstalled and configured advanced anti-cheat plugins for fair gameplay protection"
+    },
+    {
+      icon: <Eye className="w-8 h-8" />,
+      title: "Anti-Xray Protection",
+      description: "Uses the most effective AI models to prevent xray cheating and maintain game integrity"
+    },
+    {
+      icon: <TrendingUp className="w-8 h-8" />,
+      title: "Player Analytics Dashboard",
+      description: "Web-based insights on playtime, activity, and trends to help you understand your community"
     },
     {
       icon: <Cpu className="w-8 h-8" />,
