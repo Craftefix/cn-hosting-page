@@ -1,3 +1,4 @@
+
 import { Users, ShoppingCart } from "lucide-react";
 import { useState } from "react";
 import { Slider } from "@/components/ui/slider";
@@ -8,12 +9,18 @@ const Pricing = () => {
   const [includeWebstore, setIncludeWebstore] = useState(false);
 
   const getBaseServerCharge = (players: number) => {
-    if (players >= 150) return 35;
-    if (players >= 100) return 30;
-    if (players >= 75) return 20;
-    if (players >= 30) return 12;
-    if (players >= 25) return 10;
-    return 10; // Default for under 25 players
+    // Smooth curve for server base cost
+    if (players <= 5) return 8;
+    if (players <= 10) return 9;
+    if (players <= 15) return 10;
+    if (players <= 20) return 11;
+    if (players <= 25) return 12;
+    if (players <= 30) return 13;
+    if (players <= 50) return 16;
+    if (players <= 75) return 20;
+    if (players <= 100) return 25;
+    if (players <= 150) return 30;
+    return 35;
   };
 
   const calculatePrice = (players: number) => {
@@ -24,19 +31,28 @@ const Pricing = () => {
   };
 
   const calculateActualPlayerSlots = (basePlayerCount: number) => {
-    let additionalSlots = 0;
+    let bonusPercentage = 0;
     
-    if (basePlayerCount >= 100) {
-      // 10% additional from 100 players onwards
-      additionalSlots = Math.floor(basePlayerCount * 0.10);
+    // Smooth curve for bonus percentage
+    if (basePlayerCount >= 200) {
+      bonusPercentage = 0.15; // 15% bonus
+    } else if (basePlayerCount >= 150) {
+      bonusPercentage = 0.12; // 12% bonus
+    } else if (basePlayerCount >= 100) {
+      bonusPercentage = 0.10; // 10% bonus
+    } else if (basePlayerCount >= 75) {
+      bonusPercentage = 0.08; // 8% bonus
     } else if (basePlayerCount >= 50) {
-      // 3% additional from 50 players onwards
-      additionalSlots = Math.floor(basePlayerCount * 0.03);
+      bonusPercentage = 0.05; // 5% bonus
     } else if (basePlayerCount >= 30) {
-      // 2% additional from 30 players onwards
-      additionalSlots = Math.floor(basePlayerCount * 0.02);
+      bonusPercentage = 0.03; // 3% bonus
+    } else if (basePlayerCount >= 20) {
+      bonusPercentage = 0.02; // 2% bonus
+    } else if (basePlayerCount >= 10) {
+      bonusPercentage = 0.01; // 1% bonus
     }
     
+    const additionalSlots = Math.floor(basePlayerCount * bonusPercentage);
     return basePlayerCount + additionalSlots;
   };
 
@@ -47,9 +63,14 @@ const Pricing = () => {
   const playerCost = (playerCount[0] * 0.85).toFixed(2);
 
   const getBonusPercentage = (players: number) => {
+    if (players >= 200) return "15% bonus slots";
+    if (players >= 150) return "12% bonus slots";
     if (players >= 100) return "10% bonus slots";
-    if (players >= 50) return "3% bonus slots";
-    if (players >= 30) return "2% bonus slots";
+    if (players >= 75) return "8% bonus slots";
+    if (players >= 50) return "5% bonus slots";
+    if (players >= 30) return "3% bonus slots";
+    if (players >= 20) return "2% bonus slots";
+    if (players >= 10) return "1% bonus slots";
     return "";
   };
 
