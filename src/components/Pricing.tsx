@@ -2,63 +2,67 @@
 import { Users, ShoppingCart, Globe, Shield, Database, TrendingUp, Gamepad2, Eye } from "lucide-react";
 import { useState } from "react";
 import { Slider } from "@/components/ui/slider";
-import { Checkbox } from "@/components/ui/checkbox";
+import { Toggle } from "@/components/ui/toggle";
 
 const Pricing = () => {
   const [playerCount, setPlayerCount] = useState([30]);
   const [selectedAddons, setSelectedAddons] = useState<{[key: string]: boolean}>({
-    webstore: false,
-    analytics: false,
-    dailyBackups: false
+    website: false,
+		ranks: false,
+		antiCheat: false,
+		antixray: false,
+		webstore: false,
+		analytics: false
   });
-
-  const coreFeatures = [
-    {
-      icon: <Globe className="w-5 h-5 text-green-400" />,
-      title: "Free Website",
-      description: "Server status, player stats, join button, customizable homepage"
-    },
-    {
-      icon: <Gamepad2 className="w-5 h-5 text-green-400" />,
-      title: "In-Game Ranks & Economy",
-      description: "Built-in rank ladder and virtual currency. Works without webshop"
-    },
-    {
-      icon: <Shield className="w-5 h-5 text-green-400" />,
-      title: "Anti-Cheat Setup",
-      description: "Preinstalled and configured advanced anti-cheat plugins"
-    },
-    {
-      icon: <Eye className="w-5 h-5 text-green-400" />,
-      title: "Anti-Xray",
-      description: "Uses the most effective solution available (e.g., Paper Engine Mode 2)"
-    }
-  ];
 
   const availableAddons = [
     {
-      id: 'webstore',
-      title: 'Webstore',
-      description: 'Sell items, ranks, and perks with integrated payment processing',
-      setupPrice: 12,
+      id: 'website',
+      description: "Server status, player stats, join button, customizable homepage",
+      icon: <Globe className="w-5 h-5 text-green-400" />,
       monthlyPrice: 6,
-      icon: <ShoppingCart className="w-5 h-5" />
+      setupPrice: 12,
+      title: "Website",
+    },
+    {
+      id: 'ranks',
+      description: "Ranks, Shop(s) and virtual currency of your choice",
+      icon: <Gamepad2 className="w-5 h-5 text-green-400" />,
+      monthlyPrice: 6,
+      setupPrice: 12,
+      title: "In-Game Ranks, Shop & Economy",
+    },
+    {
+      id: 'antiCheat',
+      description: "Preinstalled and configured advanced anti-cheat plugins",
+      icon: <Shield className="w-5 h-5 text-green-400" />,
+      monthlyPrice: 6,
+      setupPrice: 12,
+      title: "Anti-Cheat Setup",
+    },
+    {
+      id: 'antixray',
+      description: "Uses the most effective AI and ML techniques to prevent X-Ray",
+      icon: <Eye className="w-5 h-5 text-green-400" />,
+      monthlyPrice: 6,
+      setupPrice: 12,
+      title: "Anti-Xray",
+    },
+    {
+      id: 'webstore',
+      description: 'Sell items, ranks, and perks with integrated payment processing.',
+      icon: <ShoppingCart className="w-5 h-5" />,
+      monthlyPrice: 6,
+      setupPrice: 12,
+      title: 'Webstore',
     },
     {
       id: 'analytics',
-      title: 'Player Analytics Dashboard',
       description: 'Web-based insights on playtime, activity, and trends',
-      setupPrice: 8,
+      icon: <TrendingUp className="w-5 h-5" />,
       monthlyPrice: 4,
-      icon: <TrendingUp className="w-5 h-5" />
-    },
-    {
-      id: 'dailyBackups',
-      title: 'Daily Backups',
-      description: 'Automated daily backups with easy restore options',
-      setupPrice: 0,
-      monthlyPrice: 3,
-      icon: <Database className="w-5 h-5" />
+      setupPrice: 8,
+      title: 'Player Analytics Dashboard',
     }
   ];
 
@@ -196,24 +200,6 @@ const Pricing = () => {
                 </div>
               </div>
 
-              {/* Core Features Included */}
-              <div className="bg-gray-700/30 rounded-xl p-4">
-                <h4 className="text-white font-medium mb-3 flex items-center">
-                  <span className="text-green-400 mr-2">✓</span>
-                  Included Features
-                </h4>
-                <div className="grid md:grid-cols-2 gap-3">
-                  {coreFeatures.map((feature, index) => (
-                    <div key={index} className="flex items-start space-x-2">
-                      {feature.icon}
-                      <div>
-                        <p className="text-white text-sm font-medium">{feature.title}</p>
-                        <p className="text-gray-400 text-xs">{feature.description}</p>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
 
               <div className="grid md:grid-cols-2 gap-6">
                 <div className="bg-gray-700/30 rounded-xl p-4">
@@ -250,38 +236,41 @@ const Pricing = () => {
               </div>
 
               {/* Add-ons */}
-              <div className="space-y-4">
-                <h4 className="text-white font-medium">Optional Add-ons</h4>
-                {availableAddons.map((addon) => (
-                  <div key={addon.id} className="bg-gray-700/30 rounded-xl p-4">
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center space-x-3">
-                        <Checkbox
-                          id={addon.id}
-                          checked={selectedAddons[addon.id]}
-                          onCheckedChange={() => handleAddonToggle(addon.id)}
-                        />
-                        <div className="flex items-center space-x-2">
-                          <div className="text-green-400">{addon.icon}</div>
-                          <label htmlFor={addon.id} className="text-white font-medium cursor-pointer">
-                            {addon.title}
-                          </label>
-                        </div>
+            <div className="space-y-4">
+                 <h4 className="text-white font-medium">Optional Add-ons</h4>
+                 {availableAddons.map((addon) => (
+                      <div key={addon.id} className="bg-gray-700/30 rounded-xl p-4">
+                           <div className="flex items-center justify-between">
+                                <div className="flex items-center space-x-3">
+                                     <Toggle
+                                          pressed={selectedAddons[addon.id]}
+                                          onPressedChange={() => handleAddonToggle(addon.id)}
+                                          size="default"
+                                          variant="outline"
+                                     >
+                                          <div className="flex items-center space-x-2">
+                                               <div className="text-green-400">{addon.icon}</div>
+                                               <span className="text-white font-medium">
+                                                    {addon.title}
+                                                </span>
+                                          </div>
+                                     </Toggle>
+                                </div>
+                                <div className="text-right">
+                                     <div className="text-green-400 font-bold">
+                                          {addon.setupPrice > 0 && `€${addon.setupPrice} setup + `}€{addon.monthlyPrice}/month
+                                     </div>
+                               </div>
+                            </div>
+                           {selectedAddons[addon.id] && (
+                                <div className="mt-3 text-gray-400 text-sm">
+                                     {addon.description}
+                                </div>
+                             )}
                       </div>
-                      <div className="text-right">
-                        <div className="text-green-400 font-bold">
-                          {addon.setupPrice > 0 && `€${addon.setupPrice} setup + `}€{addon.monthlyPrice}/month
-                        </div>
-                      </div>
-                    </div>
-                    {selectedAddons[addon.id] && (
-                      <div className="mt-3 text-gray-400 text-sm">
-                        {addon.description}
-                      </div>
-                    )}
-                  </div>
-                ))}
-              </div>
+                 ))}
+            </div>
+
 
               <button 
                 onClick={handleStartPlan}
