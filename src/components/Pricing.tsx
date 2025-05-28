@@ -68,17 +68,17 @@ const Pricing = () => {
 
   const getBaseServerCharge = (players: number) => {
     // Smooth curve for server base cost
-    if (players <= 5) return 8;
-    if (players <= 10) return 9;
-    if (players <= 15) return 10;
-    if (players <= 20) return 11;
-    if (players <= 25) return 12;
-    if (players <= 30) return 13;
-    if (players <= 50) return 16;
-    if (players <= 75) return 20;
-    if (players <= 100) return 25;
-    if (players <= 150) return 30;
-    return 35;
+    if (players <= 5) return 6;
+    if (players <= 10) return 7;
+    if (players <= 15) return 8;
+    if (players <= 20) return 10;
+    if (players <= 25) return 11;
+    if (players <= 30) return 12;
+    if (players <= 50) return 15;
+    if (players <= 75) return 19;
+    if (players <= 100) return 23;
+    if (players <= 150) return 27;
+    return 32; // 200+ players
   };
 
   const calculatePrice = (players: number) => {
