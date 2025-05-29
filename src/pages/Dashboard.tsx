@@ -2,15 +2,10 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
-import { createClient } from "@supabase/supabase-js";
+import { supabase } from "@/integrations/supabase/client";
 import DashboardSidebar from "@/components/dashboard/DashboardSidebar";
 import DashboardContent from "@/components/dashboard/DashboardContent";
 import AuthPages from "@/components/dashboard/AuthPages";
-
-const supabase = createClient(
-  import.meta.env.VITE_SUPABASE_URL,
-  import.meta.env.VITE_SUPABASE_ANON_KEY
-);
 
 const Dashboard = () => {
   const [user, setUser] = useState<any>(null);
