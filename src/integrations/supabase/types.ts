@@ -9,7 +9,104 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
-      [_ in never]: never
+      billing_history: {
+        Row: {
+          amount: number
+          charge_type: string
+          charged_at: string
+          created_at: string | null
+          description: string
+          id: string
+          refunded_at: string | null
+          user_id: string
+        }
+        Insert: {
+          amount: number
+          charge_type: string
+          charged_at?: string
+          created_at?: string | null
+          description: string
+          id?: string
+          refunded_at?: string | null
+          user_id: string
+        }
+        Update: {
+          amount?: number
+          charge_type?: string
+          charged_at?: string
+          created_at?: string | null
+          description?: string
+          id?: string
+          refunded_at?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
+      subscription_addons: {
+        Row: {
+          created_at: string | null
+          id: string
+          monthly_fee: number
+          subscription_id: string
+          title: string
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          monthly_fee: number
+          subscription_id: string
+          title: string
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          monthly_fee?: number
+          subscription_id?: string
+          title?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "subscription_addons_subscription_id_fkey"
+            columns: ["subscription_id"]
+            isOneToOne: false
+            referencedRelation: "subscriptions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      subscriptions: {
+        Row: {
+          created_at: string | null
+          current_period_end: string
+          id: string
+          player_count: number
+          status: string
+          total_monthly: number
+          updated_at: string | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          current_period_end?: string
+          id?: string
+          player_count?: number
+          status?: string
+          total_monthly: number
+          updated_at?: string | null
+          user_id: string
+        }
+        Update: {
+          created_at?: string | null
+          current_period_end?: string
+          id?: string
+          player_count?: number
+          status?: string
+          total_monthly?: number
+          updated_at?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never

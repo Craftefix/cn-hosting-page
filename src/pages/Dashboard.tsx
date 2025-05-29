@@ -44,7 +44,7 @@ const Dashboard = () => {
 
   const loadDashboardData = async (user: any) => {
     try {
-      // Load subscription data
+      // Load subscription data with addons
       const { data: subData, error: subError } = await supabase
         .from("subscriptions")
         .select(`
@@ -53,9 +53,9 @@ const Dashboard = () => {
         `)
         .eq("user_id", user.id)
         .eq("status", "active")
-        .single();
+        .maybeSingle();
 
-      if (subError && subError.code !== "PGRST116") {
+      if (subError) {
         console.error("Error loading subscription:", subError);
       } else {
         setSubscription(subData);
