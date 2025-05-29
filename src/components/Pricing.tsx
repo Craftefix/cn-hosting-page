@@ -140,11 +140,6 @@ const Pricing = () => {
       .filter(([_, selected]) => selected)
       .map(([addonId]) => availableAddons.find(a => a.id === addonId))
       .filter(Boolean);
-    
-    // Store selected addons and player count in sessionStorage for the checkout page
-    sessionStorage.setItem('selectedAddons', JSON.stringify(selectedAddonsList));
-    sessionStorage.setItem('playerCount', playerCount[0].toString());
-    window.location.href = '/checkout';
   };
 
   const currentPrice = calculatePrice(playerCount[0]);
